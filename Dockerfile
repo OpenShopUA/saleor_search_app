@@ -1,18 +1,17 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
-# Копіюємо файли для встановлення залежностей
-COPY package.json pnpm-lock.yaml ./
+# Копіюємо package.json, а файл pnpm-lock.yaml виключаємо, якщо його нема
+COPY package.json ./
+# Якщо у вас є lock-файл, поставте його копіювання, інакше закоментуйте цей рядок
+# COPY pnpm-lock.yaml ./
 RUN npm install -g pnpm && pnpm install --frozen-lockfile
-# Копіюємо всі файли проекту
+# Копіюємо решту файлів
 COPY . .
-# Будуємо проект (генерація схеми, компіляція, і т.д.)
 RUN pnpm run build
 
 FROM node:20-alpine AS runner
 WORKDIR /app
-# Копіюємо збудований проект із попереднього етапу
 COPY --from=builder /app . 
-# Налаштовуємо production середовище
 ENV NODE_ENV=production
 EXPOSE 3000
 CMD ["pnpm", "start"]
