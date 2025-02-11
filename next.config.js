@@ -27,7 +27,7 @@ const nextConfig = {
       "@trpc/next",
       "@saleor/apps-shared",
     ],
-    bundlePagesExternals: true
+    // bundlePagesRouterDependencies: true
   },
   /*
    * Ignore opentelemetry warnings - https://github.com/open-telemetry/opentelemetry-js/issues/4173
@@ -42,19 +42,15 @@ const nextConfig = {
   },
 };
 
-const configWithSentry = withSentryConfig(
+export default withSentryConfig(
   nextConfig,
   {
     org: process.env.SENTRY_ORG,
     project: process.env.SENTRY_PROJECT,
     silent: true,
-  },
-  {
     hideSourceMaps: true,
     widenClientFileUpload: true,
     disableLogger: true,
     tunnelRoute: "/monitoring",
-  },
+  }
 );
-
-export default isSentryPropertiesInEnvironment ? configWithSentry : nextConfig;
