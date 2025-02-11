@@ -48,7 +48,7 @@ export default withSentryConfig(
     org: process.env.SENTRY_ORG,
     project: process.env.SENTRY_PROJECT,
     silent: true,
-    hideSourceMaps: true,
+    sourcemaps: { deleteSourcemapsAfterUpload: true },
     widenClientFileUpload: true,
     disableLogger: true,
     tunnelRoute: "/monitoring",
