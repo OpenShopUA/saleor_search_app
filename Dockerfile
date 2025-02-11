@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package.json ./
 # Якщо у вас є lock-файл, поставте його копіювання, інакше закоментуйте цей рядок
 # COPY pnpm-lock.yaml ./
-RUN npm install -g pnpm && pnpm install --frozen-lockfile
+RUN npm install -g pnpm && pnpm install
 # Копіюємо решту файлів
 COPY . .
 RUN pnpm run build
